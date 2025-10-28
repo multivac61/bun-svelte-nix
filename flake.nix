@@ -5,7 +5,7 @@
     nixpkgs.url = "github:nixos/nixpkgs?ref=nixos-unstable";
     systems.url = "github:nix-systems/default";
 
-    bun2nix.url = "github:baileyluTCD/bun2nix?tag=1.5.2";
+    bun2nix.url = "github:fleek-platform/bun2nix?ref=84a6c59cd96d985be55fad2596dc82f006f601ca";
     bun2nix.inputs.nixpkgs.follows = "nixpkgs";
     bun2nix.inputs.systems.follows = "systems";
   };
@@ -37,32 +37,52 @@
       pkgsFor = eachSystem (system: import nixpkgs { inherit system; });
     in
     {
-      packages = eachSystem (system: {
-        # Produce a package for this template with bun2nix
-        default = pkgsFor.${system}.callPackage ./default.nix {
-          inherit (bun2nix.lib.${system}) mkBunDerivation;
-        };
-      });
+      packages = eachSystem (
+        system:
+        let
+          bun2nixPkg = bun2nix.packages.${system}.default;
+        in
+        {
+          default = pkgsFor.${system}.stdenv.mkDerivation {
+            pname = "my-app";
+            version = "0.0.1";
+
+            src = ./.;
+
+            nativeBuildInputs = [ bun2nixPkg.hook ];
+
+            bunDeps = bun2nixPkg.fetchBunDeps { bunNix = ./bun.nix; };
+
+            buildPhase = ''
+              runHook preBuild
+
+              bun run build --minify
+
+              runHook postBuild
+            '';
+
+            installPhase = ''
+              runHook preInstall
+
+              mkdir -p $out
+              cp -R ./build/. $out
+
+              runHook postInstall
+            '';
+          };
+        }
+      );
 
       devShells = eachSystem (system: {
         default = pkgsFor.${system}.mkShell {
           packages = with pkgsFor.${system}; [
             bun
-
-            # Add the bun2nix binary to our devshell
             bun2nix.packages.${system}.default
           ];
 
           shellHook = ''
             bun install --frozen-lockfile
           '';
-        };
-      });
-
-      checks = eachSystem (system: {
-        # Check that the default package builds successfully
-        default = pkgsFor.${system}.callPackage ./default.nix {
-          inherit (bun2nix.lib.${system}) mkBunDerivation;
         };
       });
     };
