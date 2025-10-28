@@ -1,7 +1,8 @@
 nix build fails with following error
 
 ```console
-> nix build .# -Lvvv 
+> 
+nix build .#packages.aarch64-darwin.default -Lvv
 error: build of '/nix/store/ckgjb257mqh0pasg7vrxwxwd4g9v34pw-sveltekit-bun2nix-example-0.0.1.drv' on 'ssh-ng://nix-ssh@gkr' failed: Cannot build '/nix/store/ckgjb257mqh0pasg7vrxwxwd4g9v34pw-sveltekit-bun2nix-example-0.0.1.drv'.
        Reason: builder failed with exit code 2.
        Output paths:
