@@ -58,5 +58,12 @@
           '';
         };
       });
+
+      checks = eachSystem (system: {
+        # Check that the default package builds successfully
+        default = pkgsFor.${system}.callPackage ./default.nix {
+          inherit (bun2nix.lib.${system}) mkBunDerivation;
+        };
+      });
     };
 }
