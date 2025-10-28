@@ -19,7 +19,7 @@ mkBunDerivation {
     runHook preInstall
 
     mkdir -p $out
-    cp -R ./build $out
+    cp -R ./build/. $out
 
     runHook postInstall
   '';
