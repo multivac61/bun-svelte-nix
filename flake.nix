@@ -3,11 +3,9 @@
 
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs?ref=nixos-unstable";
-    systems.url = "github:nix-systems/default";
 
     bun2nix.url = "github:fleek-platform/bun2nix?ref=84a6c59cd96d985be55fad2596dc82f006f601ca";
     bun2nix.inputs.nixpkgs.follows = "nixpkgs";
-    bun2nix.inputs.systems.follows = "systems";
   };
 
   # Use the cached version of bun2nix from the garnix cli
@@ -25,18 +23,17 @@
   outputs =
     {
       nixpkgs,
-      systems,
       bun2nix,
       ...
     }:
     let
-      # Read each system from the nix-systems input
-      eachSystem = nixpkgs.lib.genAttrs (import systems);
-
-      # Access the package set for a given system
+      supportedSystems = [
+        "aarch64-darwin"
+        "aarch64-linux"
+        "x86_64-linux"
+      ];
+      eachSystem = nixpkgs.lib.genAttrs supportedSystems;
       pkgsFor = eachSystem (system: import nixpkgs { inherit system; });
-    in
-    {
       packages = eachSystem (
         system:
         let
@@ -72,6 +69,11 @@
           };
         }
       );
+    in
+    {
+      inherit packages;
+
+      checks = packages;
 
       devShells = eachSystem (system: {
         default = pkgsFor.${system}.mkShell {
@@ -81,7 +83,7 @@
           ];
 
           shellHook = ''
-            bun install --frozen-lockfile
+            bun install
           '';
         };
       });
