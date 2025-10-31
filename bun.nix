@@ -311,9 +311,9 @@
      url = "https://registry.npmjs.org/@sveltejs/adapter-auto/-/adapter-auto-7.0.0.tgz";
      hash = "sha512-ImDWaErTOCkRS4Gt+5gZuymKFBobnhChXUZ9lhUZLahUgvA4OOvRzi3sahzYgbxGj5nkA6OV0GAW378+dl/gyw==";
   };
-  "@sveltejs/kit@2.48.2" = fetchurl {
-     url = "https://registry.npmjs.org/@sveltejs/kit/-/kit-2.48.2.tgz";
-     hash = "sha512-WIgVMGt+b9OxPDtu0Txow28RsBrLoV3wr2QoUxEHd4CHbpxbqKQf2SIEzd+SE+bqrUL2D5MxBeQBdY+t7o6n1A==";
+  "@sveltejs/kit@2.48.4" = fetchurl {
+     url = "https://registry.npmjs.org/@sveltejs/kit/-/kit-2.48.4.tgz";
+     hash = "sha512-TGFX1pZUt9qqY20Cv5NyYvy0iLWHf2jXi8s+eCGsig7jQMdwZWKUFMR6TbvFNhfDSUpc1sH/Y5EHv20g3HHA3g==";
   };
   "@sveltejs/vite-plugin-svelte-inspector@5.0.1" = fetchurl {
      url = "https://registry.npmjs.org/@sveltejs/vite-plugin-svelte-inspector/-/vite-plugin-svelte-inspector-5.0.1.tgz";
@@ -383,9 +383,9 @@
      url = "https://registry.npmjs.org/esm-env/-/esm-env-1.2.2.tgz";
      hash = "sha512-Epxrv+Nr/CaL4ZcFGPJIYLWFom+YeV1DqMLHJoEd9SYRxNbaFruBwfEX/kkHUJf55j2+TUbmDcmuilbP1TmXHA==";
   };
-  "esrap@2.1.1" = fetchurl {
-     url = "https://registry.npmjs.org/esrap/-/esrap-2.1.1.tgz";
-     hash = "sha512-ebTT9B6lOtZGMgJ3o5r12wBacHctG7oEWazIda8UlPfA3HD/Wrv8FdXoVo73vzdpwCxNyXjPauyN2bbJzMkB9A==";
+  "esrap@2.1.2" = fetchurl {
+     url = "https://registry.npmjs.org/esrap/-/esrap-2.1.2.tgz";
+     hash = "sha512-DgvlIQeowRNyvLPWW4PT7Gu13WznY288Du086E751mwwbsgr29ytBiYeLzAGIo0qk3Ujob0SDk8TiSaM5WQzNg==";
   };
   "fdir@6.5.0" = fetchurl {
      url = "https://registry.npmjs.org/fdir/-/fdir-6.5.0.tgz";
@@ -475,9 +475,9 @@
      url = "https://registry.npmjs.org/svelte-check/-/svelte-check-4.3.3.tgz";
      hash = "sha512-RYP0bEwenDXzfv0P1sKAwjZSlaRyqBn0Fz1TVni58lqyEiqgwztTpmodJrGzP6ZT2aHl4MbTvWP6gbmQ3FOnBg==";
   };
-  "svelte@5.42.3" = fetchurl {
-     url = "https://registry.npmjs.org/svelte/-/svelte-5.42.3.tgz";
-     hash = "sha512-+8dUmdJGvKSWEfbAgIaUmpD97s1bBAGxEf6s7wQonk+HNdMmrBZtpStzRypRqrYBFUmmhaUgBHUjraE8gLqWAw==";
+  "svelte@5.43.2" = fetchurl {
+     url = "https://registry.npmjs.org/svelte/-/svelte-5.43.2.tgz";
+     hash = "sha512-ro1umEzX8rT5JpCmlf0PPv7ncD8MdVob9e18bhwqTKNoLjS8kDvhVpaoYVPc+qMwDAOfcwJtyY7ZFSDbOaNPgA==";
   };
   "tinyglobby@0.2.15" = fetchurl {
      url = "https://registry.npmjs.org/tinyglobby/-/tinyglobby-0.2.15.tgz";
