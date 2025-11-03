@@ -5,7 +5,7 @@
 # Consume this with `fetchBunDeps` (recommended)
 # or `pkgs.callPackage` if you wish to handle
 # it manually.
-{ fetchurl, copyPathToStore, ... }:
+{ fetchurl, ... }:
 {
   "@emnapi/core@1.6.0" = fetchurl {
      url = "https://registry.npmjs.org/@emnapi/core/-/core-1.6.0.tgz";

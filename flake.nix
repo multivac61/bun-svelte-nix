@@ -4,7 +4,7 @@
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs?ref=nixos-unstable";
 
-    bun2nix.url = "github:fleek-platform/bun2nix?ref=84a6c59cd96d985be55fad2596dc82f006f601ca";
+    bun2nix.url = "github:fleek-platform/bun2nix?ref=f504a89aadfa5b3c0baf30d97e0c6e3faecaa73d";
     bun2nix.inputs.nixpkgs.follows = "nixpkgs";
   };
 
