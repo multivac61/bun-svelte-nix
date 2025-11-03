@@ -3,11 +3,9 @@
 
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs?ref=nixos-unstable";
-    systems.url = "github:nix-systems/default";
 
-    bun2nix.url = "github:baileyluTCD/bun2nix?tag=1.5.2";
+    bun2nix.url = "github:fleek-platform/bun2nix?ref=f504a89aadfa5b3c0baf30d97e0c6e3faecaa73d";
     bun2nix.inputs.nixpkgs.follows = "nixpkgs";
-    bun2nix.inputs.systems.follows = "systems";
   };
 
   # Use the cached version of bun2nix from the garnix cli
@@ -25,44 +23,68 @@
   outputs =
     {
       nixpkgs,
-      systems,
       bun2nix,
       ...
     }:
     let
-      # Read each system from the nix-systems input
-      eachSystem = nixpkgs.lib.genAttrs (import systems);
-
-      # Access the package set for a given system
+      supportedSystems = [
+        "aarch64-darwin"
+        "aarch64-linux"
+        "x86_64-linux"
+      ];
+      eachSystem = nixpkgs.lib.genAttrs supportedSystems;
       pkgsFor = eachSystem (system: import nixpkgs { inherit system; });
+      packages = eachSystem (
+        system:
+        let
+          bun2nixPkg = bun2nix.packages.${system}.default;
+        in
+        {
+          default = pkgsFor.${system}.stdenv.mkDerivation {
+            pname = "my-app";
+            version = "0.0.1";
+
+            src = ./.;
+
+            nativeBuildInputs = [ bun2nixPkg.hook ];
+
+            bunDeps = bun2nixPkg.fetchBunDeps { bunNix = ./bun.nix; };
+
+            buildPhase = ''
+              runHook preBuild
+
+              bun run build --minify
+
+              runHook postBuild
+            '';
+
+            installPhase = ''
+              runHook preInstall
+
+              mkdir -p $out
+              cp -R ./build/. $out
+
+              runHook postInstall
+            '';
+          };
+        }
+      );
     in
     {
-      packages = eachSystem (system: {
-        # Produce a package for this template with bun2nix
-        default = pkgsFor.${system}.callPackage ./default.nix {
-          inherit (bun2nix.lib.${system}) mkBunDerivation;
-        };
-      });
+      inherit packages;
+
+      checks = packages;
 
       devShells = eachSystem (system: {
         default = pkgsFor.${system}.mkShell {
           packages = with pkgsFor.${system}; [
             bun
-
-            # Add the bun2nix binary to our devshell
             bun2nix.packages.${system}.default
           ];
 
           shellHook = ''
-            bun install --frozen-lockfile
+            bun install
           '';
-        };
-      });
-
-      checks = eachSystem (system: {
-        # Check that the default package builds successfully
-        default = pkgsFor.${system}.callPackage ./default.nix {
-          inherit (bun2nix.lib.${system}) mkBunDerivation;
         };
       });
     };
